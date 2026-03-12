@@ -19,9 +19,9 @@ df_matches = pd.read_excel('Matches.xlsx')
 
 
 #FORMATO
-st.header(f'Bienvenido TOTO Camargo!!')
+st.header(f'Bienvenido SPORTIGNG COMPANY!!')
 
-st.write("Videoteca: Partidos completos")
+st.write("Videoteca: Partidos Y Entrenamientos")
 
 df_matches = df_matches.dropna(subset=['video'])
 df_matches = df_matches[df_matches.Propio==True]
