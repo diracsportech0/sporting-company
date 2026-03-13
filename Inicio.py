@@ -20,26 +20,39 @@ df_entreno = df_entreno.dropna(subset=['video'])
 # -------- FECHAS
 df_entreno['date'] = pd.to_datetime(df_entreno['date'])
 
-# ---------- MESES EN ESPAÑOL
-meses_map = {
-    1:"Enero",2:"Febrero",3:"Marzo",4:"Abril",5:"Mayo",6:"Junio",
-    7:"Julio",8:"Agosto",9:"Septiembre",10:"Octubre",
-    11:"Noviembre",12:"Diciembre"
+# calcular lunes de cada semana
+df_entreno["week_start"] = df_entreno["date"] - pd.to_timedelta(df_entreno["date"].dt.weekday, unit="d")
+
+# calcular domingo
+df_entreno["week_end"] = df_entreno["week_start"] + pd.Timedelta(days=6)
+
+# crear etiqueta visual
+df_entreno["week_label"] = df_entreno["week_start"].dt.strftime(
+    "Semana (%d %b"
+) + " - " + df_entreno["week_end"].dt.strftime("%d %b %Y)")
+
+# semanas disponibles
+semanas = sorted(df_entreno["week_start"].unique())
+
+# crear labels para selector
+labels = {
+    start: f"Semana ({start.day}-{(start + pd.Timedelta(days=6)).day} {start.strftime('%B')})"
+    for start in semanas
 }
 
-df_entreno["mes_num"] = df_entreno["date"].dt.month
-df_entreno["año"] = df_entreno["date"].dt.year
-df_entreno["mes_label"] = df_entreno["mes_num"].map(meses_map) + " " + df_entreno["año"].astype(str)
+semana_seleccionada = st.sidebar.selectbox(
+    "Semana de trabajo",
+    list(labels.keys()),
+    format_func=lambda x: labels[x]
+)
 
-mes = st.sidebar.selectbox("Mes", sorted(df_entreno["mes_label"].unique()))
+inicio_semana = semana_seleccionada
+fin_semana = inicio_semana + pd.Timedelta(days=6)
 
-df_mes = df_entreno[df_entreno["mes_label"] == mes]
-
-# ---------- SEMANA
-df_mes["week"] = df_mes["date"].dt.isocalendar().week
-semana = st.sidebar.selectbox("Semana", sorted(df_mes["week"].unique()))
-
-df_semana = df_mes[df_mes["week"] == semana]
+df_semana = df_entreno[
+    (df_entreno["date"] >= inicio_semana) &
+    (df_entreno["date"] <= fin_semana)
+]
 
 # ---------- DIAS EN ESPAÑOL
 dias_map = {
@@ -52,12 +65,11 @@ dias_map = {
     "Sunday":"Domingo"
 }
 
-df_semana["dia"] = df_semana["date"].dt.day_name()
-df_semana["dia_es"] = df_semana["dia"].map(dias_map)
+df_semana["dia"] = df_semana["date"].dt.day_name().map(dias_map)
 
-dia = st.sidebar.selectbox("Día", df_semana["dia_es"].unique())
+dia = st.sidebar.selectbox("Día", df_semana["dia"].unique())
 
-df_final = df_semana[df_semana["dia_es"] == dia]
+df_final = df_semana[df_semana["dia"] == dia]
 
 # -------- MOSTRAR VIDEOS FILTRADOS
 urls_match = df_final['video'].values
