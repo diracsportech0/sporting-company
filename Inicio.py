@@ -5,7 +5,7 @@ import pandas as pd
 #st.set_page_config(layout="wide")
 
 # ENCABEZADO: escudo Melgar + escudo Liga1
-colA, colB, colC = st.columns([1, 7, 1])
+colA, colB, colC = st.columns([1, 6, 1])
 with colA:
     st.image('logo-club.png', use_column_width=True)
 with colB:
@@ -15,14 +15,14 @@ with colC:
     pass
 
 #DATA
-df_matches = pd.read_excel('Matches.xlsx')
-df_entreno = pd.read_excel('Entrenamientos.xlsx')
+#df_matches = pd.read_excel('Matches.xlsx')
+df_entreno = pd.read_excel('entrenamientos.xlsx')
 
 
 #FORMATO
 st.header(f'Bienvenido SPORTING COMPANY!!')
 
-st.write("Videoteca: Partidos & Entrenamientos")
+st.write("Videoteca de entrenamientos")
 
 df_entreno = df_entreno.dropna(subset=['video'])
 
@@ -60,10 +60,10 @@ df_matches = df_matches[df_matches['Etapa'].isin(etapa_select)]
 urls_match = df_entreno['video'].values
 
 #df_matches = df_matches[df_matches['match_filter'].isin(partidos_select)]
-n_matches = df_entreno.shape[0]
+n_entreno = df_entreno.shape[0]
 n_columns = 3
-for i in range(0, n_matches, n_columns):
+for i in range(0, n_entreno, n_columns):
     cols = st.columns(n_columns)
     for j in range(n_columns):
-        if i + j < n_matches:
+        if i + j < n_entreno:
             cols[j].video(urls_match[i + j], muted=0)
