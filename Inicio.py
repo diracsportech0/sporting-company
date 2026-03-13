@@ -17,37 +17,41 @@ st.write("Videoteca de entrenamientos")
 
 df_entreno = df_entreno.dropna(subset=['video'])
 
-# -------- FECHAS
+# -------- FECHAS-----
 df_entreno['date'] = pd.to_datetime(df_entreno['date'])
 
-# calcular lunes de cada semana
-df_entreno["week_start"] = df_entreno["date"] - pd.to_timedelta(df_entreno["date"].dt.weekday, unit="d")
+# -------- SEMANAS COMPLETAS DEL MES (lunes-domingo)
 
-# calcular domingo
-df_entreno["week_end"] = df_entreno["week_start"] + pd.Timedelta(days=6)
+mes_num = df_mes["date"].dt.month.iloc[0]
+anio = df_mes["date"].dt.year.iloc[0]
 
-# crear etiqueta visual
-df_entreno["week_label"] = df_entreno["week_start"].dt.strftime(
-    "Semana (%d %b"
-) + " - " + df_entreno["week_end"].dt.strftime("%d %b %Y)")
+primer_dia = pd.Timestamp(anio, mes_num, 1)
+ultimo_dia = primer_dia + pd.offsets.MonthEnd()
 
-# semanas disponibles
-semanas = sorted(df_entreno["week_start"].unique())
+# lunes anterior al primer día del mes
+inicio = primer_dia - pd.Timedelta(days=primer_dia.weekday())
 
-# crear labels para selector
-labels = {
-    start: f"Semana ({start.day}-{(start + pd.Timedelta(days=6)).day} {start.strftime('%B')})"
-    for start in semanas
-}
+semanas_dict = {}
+i = 1
 
-semana_seleccionada = st.sidebar.selectbox(
-    "Semana de trabajo",
-    list(labels.keys()),
-    format_func=lambda x: labels[x]
+while inicio <= ultimo_dia:
+
+    fin = inicio + pd.Timedelta(days=6)
+
+    label = f"Semana {i} ({inicio.strftime('%d %b')} - {fin.strftime('%d %b')})"
+
+    semanas_dict[label] = (inicio, fin)
+
+    inicio += pd.Timedelta(days=7)
+    i += 1
+
+
+semana_label = st.sidebar.selectbox(
+    "Semana",
+    list(semanas_dict.keys())
 )
 
-inicio_semana = semana_seleccionada
-fin_semana = inicio_semana + pd.Timedelta(days=6)
+inicio_semana, fin_semana = semanas_dict[semana_label]
 
 df_semana = df_entreno[
     (df_entreno["date"] >= inicio_semana) &
