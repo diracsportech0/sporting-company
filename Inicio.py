@@ -2,66 +2,69 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-#st.set_page_config(layout="wide")
-
-# ENCABEZADO: escudo Melgar + escudo Liga1
+# ENCABEZADO
 colA, colB, colC = st.columns([1, 6, 1])
 with colA:
     st.image('logo-club.png', use_column_width=True)
-with colB:
-    pass
 with colC:
     st.image('logo-piad.png', use_column_width=True)
-    pass
 
-#DATA
-#df_matches = pd.read_excel('Matches.xlsx')
+# DATA
 df_entreno = pd.read_excel('entrenamientos.xlsx')
 
-
-#FORMATO
-st.header(f'Bienvenido SPORTING COMPANY!!')
-
+st.header('Bienvenido SPORTING COMPANY!!')
 st.write("Videoteca de entrenamientos")
 
 df_entreno = df_entreno.dropna(subset=['video'])
 
-#-----------FILTRO POR FECHA
+# -------- FECHAS
 df_entreno['date'] = pd.to_datetime(df_entreno['date'])
-# MES
-meses = df_entreno['date'].dt.to_period('M').unique()
-mes = st.sidebar.selectbox("Mes", meses)
-df_mes = df_entreno[df_entreno['date'].dt.to_period('M') == mes]
-# SEMANA
-semanas = df_mes['date'].dt.isocalendar().week.unique()
-semana = st.sidebar.selectbox("Semana", semanas)
-df_semana = df_mes[df_mes['date'].dt.isocalendar().week == semana]
-# DIA
-dias = df_semana['date'].dt.day_name().unique()
-dia = st.sidebar.selectbox("Día", dias)
-df_final = df_semana[df_semana['date'].dt.day_name() == dia]
 
-#######-------------
+# ---------- MESES EN ESPAÑOL
+meses_map = {
+    1:"Enero",2:"Febrero",3:"Marzo",4:"Abril",5:"Mayo",6:"Junio",
+    7:"Julio",8:"Agosto",9:"Septiembre",10:"Octubre",
+    11:"Noviembre",12:"Diciembre"
+}
 
-'''
-#rivales = df_matches['match_filter'].values
-etapa = set(df_matches['Etapa'].values)
+df_entreno["mes_num"] = df_entreno["date"].dt.month
+df_entreno["año"] = df_entreno["date"].dt.year
+df_entreno["mes_label"] = df_entreno["mes_num"].map(meses_map) + " " + df_entreno["año"].astype(str)
 
-etapa_select = st.sidebar.multiselect(
-    "Elige la etapa",
-    etapa,
-    etapa)
-#partidos_select = st.sidebar.multiselect(
-#    "Elige el rival",
-#    rivales,
-#    rivales)
-df_matches = df_matches[df_matches['Etapa'].isin(etapa_select)]
-'''
-urls_match = df_entreno['video'].values
+mes = st.sidebar.selectbox("Mes", sorted(df_entreno["mes_label"].unique()))
 
-#df_matches = df_matches[df_matches['match_filter'].isin(partidos_select)]
-n_entreno = df_entreno.shape[0]
+df_mes = df_entreno[df_entreno["mes_label"] == mes]
+
+# ---------- SEMANA
+df_mes["week"] = df_mes["date"].dt.isocalendar().week
+semana = st.sidebar.selectbox("Semana", sorted(df_mes["week"].unique()))
+
+df_semana = df_mes[df_mes["week"] == semana]
+
+# ---------- DIAS EN ESPAÑOL
+dias_map = {
+    "Monday":"Lunes",
+    "Tuesday":"Martes",
+    "Wednesday":"Miércoles",
+    "Thursday":"Jueves",
+    "Friday":"Viernes",
+    "Saturday":"Sábado",
+    "Sunday":"Domingo"
+}
+
+df_semana["dia"] = df_semana["date"].dt.day_name()
+df_semana["dia_es"] = df_semana["dia"].map(dias_map)
+
+dia = st.sidebar.selectbox("Día", df_semana["dia_es"].unique())
+
+df_final = df_semana[df_semana["dia_es"] == dia]
+
+# -------- MOSTRAR VIDEOS FILTRADOS
+urls_match = df_final['video'].values
+
+n_entreno = df_final.shape[0]
 n_columns = 3
+
 for i in range(0, n_entreno, n_columns):
     cols = st.columns(n_columns)
     for j in range(n_columns):
