@@ -11,7 +11,7 @@ with colC:
     st.image("logo-piad.png", use_column_width=True)
 
 st.header("Bienvenido SPORTING COMPANY!!")
-st.write("Videoteca de entrenamientos")
+#st.write("Videoteca de entrenamientos")
 
 # ---------------- DATA
 df_entreno = pd.read_excel("entrenamientos.xlsx")
@@ -112,7 +112,7 @@ df_final = df_semana[df_semana["dia_label"] == dia]
 
 # ---------------- TITULO ACTUAL
 
-st.subheader(f"{semana_label} -> {dia}")
+st.write(f"{semana_label} -> {dia}")
 
 # ---------------- VIDEOS
 
