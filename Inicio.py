@@ -115,52 +115,35 @@ df_final = df_semana[df_semana["dia_label"] == dia]
 st.write(f"{semana_label} -> {dia}")
 
 # ---------------- VIDEOS
-'''
-urls_match = df_final["video"].values
-n_entreno = df_final.shape[0]
-n_columns = 2
 
-coments_entreno = df_final["comentarios"].values
-titles_treno = df_final["Nombre"].values
-
-for i in range(0, n_entreno, n_columns):
-    cols = st.columns(n_columns)
-    for j in range(n_columns):
-        if i + j < n_entreno:
-            cols[j].write(titles_treno[i + j])
-            cols[j].video(urls_match[i + j], muted=False)
-            cols[j].write(coments_entreno[i + j])
-    st.divider()
-'''
-
+# Extraemos los datos necesarios
 urls_match = df_final["video"].values
 coments_entreno = df_final["comentarios"].values
-
+nombres = df_final["nombre"].values  # Asegúrate de tener esta columna
 n_entreno = df_final.shape[0]
-n_columns = 2
 
-for i in range(0, n_entreno, n_columns):
+for i in range(n_entreno):
+    # 1. Mostramos el nombre ocupando todo el ancho
+    st.subheader(nombres[i])
 
-    cols = st.columns(n_columns)
+    # 2. Creamos dos columnas: una para el video principal y otra para el contenido
+    # Puedes ajustar el ratio [2, 1] si quieres que el video sea más grande que el texto
+    col_video, col_comentario = st.columns([2, 1])
 
-    for j in range(n_columns):
+    with col_video:
+        st.video(urls_match[i], muted=False)
 
-        if i + j < n_entreno:
-
-            cols[j].video(urls_match[i + j], muted=False)
-
-            comentario = coments_entreno[i + j]
-
-            if pd.notna(comentario):
-
-                comentario = str(comentario)
-
-                # si es link de video
-                if "youtu" in comentario:
-                    cols[j].video(comentario, muted=False)
-
-                # si es texto
-                else:
-                    cols[j].write(comentario)
+    with col_comentario:
+        comentario = coments_entreno[i]
+        
+        if pd.notna(comentario):
+            comentario = str(comentario)
+            
+            # Si el comentario es un link de video
+            if "youtu" in comentario:
+                st.video(comentario, muted=False)
+            # Si es texto normal
+            else:
+                st.info(comentario) # Usar .info() le da un mejor estilo visual al texto
 
     st.divider()
