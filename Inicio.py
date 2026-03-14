@@ -134,11 +134,10 @@ for i in range(0, n_entreno, n_columns):
 '''
 
 urls_match = df_final["video"].values
+coments_entreno = df_final["comentarios"].values
+
 n_entreno = df_final.shape[0]
 n_columns = 2
-
-coments_entreno = df_final["comentarios"].values
-parte_entreno = df_final["parte_entreno"].values
 
 for i in range(0, n_entreno, n_columns):
 
@@ -150,20 +149,18 @@ for i in range(0, n_entreno, n_columns):
 
             cols[j].video(urls_match[i + j], muted=False)
 
-            # si es parte principal -> mostrar video resumen
-            if parte_entreno[i + j] == "principal":
+            comentario = coments_entreno[i + j]
 
-                resumen_video = coments_entreno[i + j]
+            if pd.notna(comentario):
 
-                if pd.notna(resumen_video):
-                    cols[j].video(resumen_video, muted=False)
+                comentario = str(comentario)
 
-            # si no -> mostrar comentario
-            else:
+                # si es link de video
+                if "youtu" in comentario:
+                    cols[j].video(comentario, muted=False)
 
-                comentario = coments_entreno[i + j]
-
-                if pd.notna(comentario):
+                # si es texto
+                else:
                     cols[j].write(comentario)
 
     st.divider()
