@@ -115,7 +115,7 @@ df_final = df_semana[df_semana["dia_label"] == dia]
 st.write(f"{semana_label} -> {dia}")
 
 # ---------------- VIDEOS
-
+'''
 urls_match = df_final["video"].values
 n_entreno = df_final.shape[0]
 n_columns = 2
@@ -130,4 +130,40 @@ for i in range(0, n_entreno, n_columns):
             cols[j].write(titles_treno[i + j])
             cols[j].video(urls_match[i + j], muted=False)
             cols[j].write(coments_entreno[i + j])
+    st.divider()
+'''
+
+urls_match = df_final["video"].values
+n_entreno = df_final.shape[0]
+n_columns = 2
+
+coments_entreno = df_final["comentarios"].values
+parte_entreno = df_final["parte_entreno"].values
+
+for i in range(0, n_entreno, n_columns):
+
+    cols = st.columns(n_columns)
+
+    for j in range(n_columns):
+
+        if i + j < n_entreno:
+
+            cols[j].video(urls_match[i + j], muted=False)
+
+            # si es parte principal -> mostrar video resumen
+            if parte_entreno[i + j] == "principal":
+
+                resumen_video = coments_entreno[i + j]
+
+                if pd.notna(resumen_video):
+                    cols[j].video(resumen_video, muted=False)
+
+            # si no -> mostrar comentario
+            else:
+
+                comentario = coments_entreno[i + j]
+
+                if pd.notna(comentario):
+                    cols[j].write(comentario)
+
     st.divider()
