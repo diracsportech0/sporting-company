@@ -121,11 +121,13 @@ n_entreno = df_final.shape[0]
 n_columns = 2
 
 coments_entreno = df_final["comentarios"].values
+titles_treno = df_final["Nombre"].values
 
 for i in range(0, n_entreno, n_columns):
     cols = st.columns(n_columns)
     for j in range(n_columns):
         if i + j < n_entreno:
+            cols[j].write(titles_treno[i + j])
             cols[j].video(urls_match[i + j], muted=False)
-            cols[j].write(coments_entreno[i + j], muted=False)
+            cols[j].write(coments_entreno[i + j])
     st.divider()
