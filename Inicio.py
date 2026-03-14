@@ -112,7 +112,9 @@ df_final = df_semana[df_semana["dia_label"] == dia]
 
 # ---------------- TITULO ACTUAL
 
-st.write(f"{semana_label} -> {dia}")
+#st.write(f"{semana_label} -> {dia}")
+
+st.write(f"**:green[{semana_label} -> {dia}]**")
 
 # ---------------- VIDEOS
 
@@ -124,11 +126,12 @@ n_entreno = df_final.shape[0]
 
 for i in range(n_entreno):
     # 1. Mostramos el nombre ocupando todo el ancho
-    st.subheader(nombres[i])
+    #st.subheader(nombres[i])
+    st.markdown(f"#### {nombres[i]}")
 
     # 2. Creamos dos columnas: una para el video principal y otra para el contenido
     # Puedes ajustar el ratio [2, 1] si quieres que el video sea más grande que el texto
-    col_video, col_comentario = st.columns([2, 1])
+    col_video, col_comentario = st.columns([3, 4])
 
     with col_video:
         st.video(urls_match[i], muted=False)
