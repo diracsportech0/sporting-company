@@ -128,13 +128,4 @@ for i in range(0, n_entreno, n_columns):
         if i + j < n_entreno:
             cols[j].video(urls_match[i + j], muted=False)
             cols[j].write(coments_entreno[i + j], muted=False)
-
-
-'''
-
-n_entreno = df_final.shape[0]
-
-for i in range(0, n_entreno, 2):
-    cols = st.columns(2)
-
-    '''
+    st.divider()
