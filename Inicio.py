@@ -118,10 +118,23 @@ st.write(f"{semana_label} -> {dia}")
 
 urls_match = df_final["video"].values
 n_entreno = df_final.shape[0]
-n_columns = 3
+n_columns = 2
+
+coments_entreno = df_final["comentarios"].values
 
 for i in range(0, n_entreno, n_columns):
     cols = st.columns(n_columns)
     for j in range(n_columns):
         if i + j < n_entreno:
             cols[j].video(urls_match[i + j], muted=False)
+            cols[j].write(coments_entreno[i + j], muted=False)
+
+
+'''
+
+n_entreno = df_final.shape[0]
+
+for i in range(0, n_entreno, 2):
+    cols = st.columns(2)
+
+    '''
