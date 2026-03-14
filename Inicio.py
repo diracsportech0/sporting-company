@@ -119,7 +119,7 @@ st.write(f"{semana_label} -> {dia}")
 # Extraemos los datos necesarios
 urls_match = df_final["video"].values
 coments_entreno = df_final["comentarios"].values
-nombres = df_final["nombre"].values  # Asegúrate de tener esta columna
+nombres = df_final["Nombre"].values  # Asegúrate de tener esta columna
 n_entreno = df_final.shape[0]
 
 for i in range(n_entreno):
