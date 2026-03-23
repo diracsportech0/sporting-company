@@ -56,7 +56,7 @@ df['output'] = df['output'].fillna('-')
 df['Nota'] = df['Nota'].fillna('-')
 
 # -----Df de pases
-#df_pass = startfin_df (df,'PASE')
+df_pass = startfin_df (df,'PASE')
 
 #---- DF CORNER
 #df_corner= startfin_df (df,'Corner')
