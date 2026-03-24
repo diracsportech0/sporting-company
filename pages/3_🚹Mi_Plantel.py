@@ -87,7 +87,7 @@ elif option_stats == 'Sin balón':
 ######## --------------- MAPA DE PASES
 df_pass_player = df_pass[df_pass.player==player]
 #df_pass_player = df_pass_player[df_pass_player.match_filter==rival]
-player_passmap(df_pass_player,player,'ADEPA')
+player_passmap(df_pass_player,player,'Santos FC (1T)')
 
 '''
 metricas = ['PASE','CONDUCCION','REGATE','TIRO','PERDIDA',
