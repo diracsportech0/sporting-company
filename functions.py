@@ -455,10 +455,10 @@ def tipo_tiros_goles(df,output):
     mapa_fases = {
         'Tran. Ataque-Defensa': 'Transición',
         'Tran. Defensa-Ataque': 'Transición',
-        'Ataque': 'Elaborado',
-        'Defensa': 'Elaborado',
-        'ABP a favor': 'ABP',
-        'ABP en contra': 'ABP'
+        'Ataque': 'Ataq. organizado',
+        'Defensa': 'Ataq. organizado',
+        'ABP a favor': 'Tiro libre/Corner',
+        'ABP en contra': 'Tiro libre/Corner'
     }
     
     df_tiros['Fase_Simple'] = df_tiros['Event'].map(mapa_fases)
