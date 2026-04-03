@@ -453,8 +453,8 @@ def tipo_tiros_goles(df,output):
 
     # 3. Simplificar las Fases (Agrupación para el color)
     mapa_fases = {
-        'Tran. Ataque-Defensa': 'Transicion',
-        'Tran. Defensa-Ataque': 'Transicion',
+        'Tran. Ataque-Defensa': 'Transición',
+        'Tran. Defensa-Ataque': 'Transición',
         'Ataque': 'Elaborado',
         'Defensa': 'Elaborado',
         'ABP a favor': 'ABP',

@@ -46,26 +46,26 @@ if choice2 == 'Informe de partido':
     #    "Etapa de juego",
     #    etapas_juego,
     #    0)
-    st.write("ATAQUE & TRAN. OFENSIVA")
+    st.write("**ATAQUE & TRAN. OFENSIVA**")
     #if menu_subinforme == 'Ataque':
     col1, col2 = st.columns(2)
     with col1:
         #st.subheader("Gráfico Ataque")
         fig1, ax1 = plt.subplots()
         ax1.plot([1, 2, 3], [10, 20, 10])
-        barras_apiladas(df, 'Event', ataque,'output', "Resumen por fase")
+        barras_apiladas(df, 'Event', ataque,'output', "¿Cómo terminó la jugada con balón?")
     with col2:
         tipo_tiros_goles(df,'Ocasión')
         #mostrar_tablas_zonas(df, ataque)
         
-    st.write("DEFENSA & TRAN. DEFENSIVA")
+    st.write("**DEFENSA & TRAN. DEFENSIVA**")
     #if menu_subinforme == 'Defensa':
     col1, col2 = st.columns(2)
     with col1:
         #st.subheader("Gráfico Ataque")
         fig1, ax1 = plt.subplots()
         ax1.plot([1, 2, 3], [10, 20, 10])
-        barras_apiladas(df, 'Event', defensa,'output', "Resumen por fase")
+        barras_apiladas(df, 'Event', defensa,'output', "¿Cómo terminó la jugada Defensiva?")
     with col2:
         tipo_tiros_goles(df,'Ocasión rival')
         #mostrar_tablas_zonas(df, defensa)
