@@ -46,7 +46,19 @@ if choice2 == 'Informe de partido':
     #    "Etapa de juego",
     #    etapas_juego,
     #    0)
-    st.write("**ATAQUE & TRAN. OFENSIVA**")
+    #st.write("**ATAQUE & TRAN. OFENSIVA**")
+    st.markdown(
+    """
+    <div style="background-color: #f0f2f6; padding: 10px; border-radius: 5px; border-left: 5px solid #ff4b4b;">
+        <h3 style="margin: 0; color: #31333F; font-family: sans-serif;">
+            ⚔️ ATAQUE & TRAN. OFENSIVA
+        </h3>
+    </div>
+    <br>
+    """,
+    unsafe_allow_html=True
+)
+
     #if menu_subinforme == 'Ataque':
     col1, col2 = st.columns(2)
     with col1:
