@@ -431,6 +431,11 @@ def barras_apiladas(df, x_col, fases_select,subtypes, titulo):
     fig.update_traces(textposition='inside', textfont_size=12)
     # 5. Ordenar las barras de mayor a menor (opcional)
     #fig.update_layout(xaxis={'categoryorder':'total descending'})
+    # 6. CONFIGURACIÓN DEL EJE X (Aquí haces el cambio)
+    fig.update_xaxes(
+        title_text='', 
+        tickangle=-45  # <--- Rotación de -45 grados (diagonal)
+    )
     fig.update_xaxes(title_text='')
     st.plotly_chart(fig, use_container_width=True)
 
