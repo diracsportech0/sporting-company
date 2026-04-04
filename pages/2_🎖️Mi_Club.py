@@ -48,7 +48,7 @@ if choice2 == 'Informe de partido':
     #    0)
     st.markdown(
     """
-    <div style="background-color: #f0f2f6; padding: 10px; border-radius: 5px; border-left: 5px solid #ff4b4b;">
+    <div style="background-color: #f0f2f6; padding: 5px; border-radius: 3px; border-left: 5px solid #ff4b4b;">
         <h3 style="margin: 0; color: #31333F; font-family: sans-serif;">
             ATAQUE & TRAN. OFENSIVA
         </h3>
