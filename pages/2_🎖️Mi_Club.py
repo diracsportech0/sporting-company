@@ -8,7 +8,7 @@ from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
 
 #from Home_page import name_club, id_club
 from etl import df #df_pass #df_tipo1, df_tipo2
-from functions import barras_apiladas, tipo_tiros_goles, mostrar_tablas_zonas, mapa_pases
+from functions import barras_apiladas, tipo_tiros_goles, mostrar_tablas_zonas, graph_percents
 
 
 colA, colB, colC = st.columns([5, 6, 2])
@@ -17,7 +17,6 @@ with colB:pass
 with colC:st.image('logo-piad.png', use_column_width=True)
 #----------------------
 #st.title(f'⚽ {name_club}')
-#df = df[df['etapa'] != 'provincial'] #estamos obviando los partidos de la provincial
 
 
 #ETAPA DE JUEGO
@@ -56,14 +55,11 @@ if choice2 == 'Informe de partido':
     <br>
     """,
     unsafe_allow_html=True
-)
+    )
 
     #if menu_subinforme == 'Ataque':
     col1, col2 = st.columns(2)
     with col1:
-        #st.subheader("Gráfico Ataque")
-        #fig1, ax1 = plt.subplots()
-        #ax1.plot([1, 2, 3], [10, 20, 10])
         barras_apiladas(df, 'Event', ataque,'output', "¿Cómo terminó la jugada con balón?")
     with col2:
         tipo_tiros_goles(df,'Ocasión')
@@ -92,7 +88,16 @@ if choice2 == 'Informe de partido':
         tipo_tiros_goles(df,'Ocasión rival')
         #mostrar_tablas_zonas(df, defensa)
     
-        
+    #------- GRAFICOS RECU Y PERDIDAS-----
+    mask_recu = (df.Event == 'RECUPERACION')
+    mask_per = (df.Event == 'PERDIDA')
+
+    colAB, colBC = st.columns(2)
+    with colAB:
+        #st.subheader("Gráfico Ataque")
+        graph_percents(df, mask_per,'Pérdidas',menu_match,'Reds')
+    with colBC:
+        graph_percents(df, mask_recu,'Recuperaciones',menu_match,'Blues')
 
 if choice2 == 'Informe acumulado':
     st.write("NO DISPONIBLE")

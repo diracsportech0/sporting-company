@@ -518,6 +518,43 @@ def mostrar_tablas_zonas(df, fases_interes):
         st.dataframe(tabla_cruzada, use_container_width=True)
 
 
+#----------------------------------------------------------------
+
+def grafico_circular(df, fases_select, subtypes, titulo):    
+    # 1. Filtramos los datos (manteniendo tu lógica actual)
+    df_filtrado = df[df.output != '-']
+    df_filtrado = df_filtrado[df_filtrado.Event.isin(fases_select)]
+
+    # 2. Agrupamos para contar ocurrencias
+    df_resumen = df_filtrado.groupby([subtypes]).size().reset_index(name='cantidad')
+
+    # 3. Creamos el gráfico circular
+    fig = px.pie(
+        df_resumen, 
+        values='cantidad',      # El tamaño de la rebanada
+        names=subtypes,        # La categoría (ej: 'output')
+        title=titulo,
+        hole=0.4               # Opcional: añade 0.4 para que sea un gráfico de dona
+    )
+
+    # 4. Configuración para mostrar valor y porcentaje
+    # 'label+percent+value' muestra el nombre, el % y el número absoluto
+    fig.update_traces(
+        textinfo='percent+value', 
+        textposition='inside',
+        insidetextorientation='horizontal'
+    )
+
+    # 5. Ajustes estéticos de la leyenda
+    fig.update_layout(
+        legend_title_text=subtypes.capitalize(),
+        margin=dict(t=50, b=20, l=20, r=20)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
 #---------------------------------------------------------
 '''
     def graph_barras(df_stats, metrica, color_map):
