@@ -88,7 +88,7 @@ if choice == 'Equipo':
         color='output',
         color_discrete_map={
             'Pérdida': '#AD1D00',
-            'Progresión': '#C78B08',
+            'Progresión': '#4b0082',
             'Ocasión': '#102C9C',
 
             'Ocasión rival': '#AD1D00',
