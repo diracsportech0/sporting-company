@@ -195,7 +195,7 @@ def graph_percents(df,mask, metrica, rival,colormapeo,
     df_extra = df_extra[['Event','x_end','y_end']]
     df_extra.rename(columns={'x_end': 'x', 'y_end': 'y'}, inplace=True)
     df_sel = pd.concat([df_sel,df_extra], axis=0, ignore_index=True)
-    st.write(df_sel)
+    #st.write(df_sel)
     #
     #st.write(df_sel)
     pitch = Pitch(pitch_type='statsbomb', line_zorder=2, pitch_color='#f4edf0',line_color='#595b5a')
